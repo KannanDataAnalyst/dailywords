@@ -108,7 +108,7 @@ def send_email(vocab):
 
     try:
         # Standard Gmail/Yahoo/Outlook SMTP port setup
-        server = smtplib.SMTP("smtp.gmail.com", 577)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
         server.send_message(msg)
