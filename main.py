@@ -154,13 +154,14 @@ def send_telegram(vocab):
 
 def save_to_snowflake(vocab):
     try:
+        # Reusing your exact environment variable names and assigning new DB specs
         conn = snowflake.connector.connect(
-            user=os.environ.get("SF_USER"),
-            password=os.environ.get("SF_PASSWORD"),
-            account=os.environ.get("SF_ACCOUNT"),
-            warehouse="VOCAB_WH",
-            database="VOCAB_DB",
-            schema="PUBLIC",
+            user=os.environ["SNOWFLAKE_USER"],
+            password=os.environ["SNOWFLAKE_PASSWORD"],
+            account=os.environ["SNOWFLAKE_ACCOUNT"],
+            warehouse='VOCAB_WH',
+            database='VOCAB_DB',
+            schema='PUBLIC'
         )
         cursor = conn.cursor()
 
@@ -168,14 +169,14 @@ def save_to_snowflake(vocab):
             INSERT INTO VOCAB_DB.PUBLIC.DAILY_WORDS (WORD, MEANING, EXAMPLE_SENTENCE)
             VALUES (%s, %s, %s)
         """
-        cursor.execute(sql, (vocab["word"], vocab["definition"], vocab["example_sentence"]))
+        cursor.execute(sql, (vocab['word'], vocab['definition'], vocab['example_sentence']))
         conn.commit()
         print("❄️ Word successfully logged to Snowflake!")
 
     except Exception as e:
         print(f"❌ Snowflake database operation failed: {e}")
     finally:
-        if "conn" in locals():
+        if 'conn' in locals():
             cursor.close()
             conn.close()
 
