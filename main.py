@@ -36,7 +36,7 @@ def get_curated_word():
 
             for word in word_list:
                 word = word.lower().strip()
-                if len(word) < 6 or word in easy_words_to_restrict:
+                if len(word) < 8 or word in easy_words_to_restrict:
                     continue
 
                 dict_api_url = (
